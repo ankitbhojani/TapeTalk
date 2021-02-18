@@ -8,8 +8,8 @@ const signUpSchema = require('../validation/signUpSchema');
 const signInSchema = require('../validation/signInSchema');
 
 // Authentication Routes
-router.post('/signUp', signUpSchema,signUp)
-router.post('/signIn',signInSchema, signIn)
+router.post('/signUp', signUp)
+router.post('/signIn', signIn)
 
 async function signUp(req, res) {
 	try {

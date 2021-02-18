@@ -27,7 +27,7 @@ const userSchema = new Schema(
         },
         gender:{
             // 1 - male,2 - female
-            type: Number,
+            type: String,
         }
     },
     {
@@ -44,11 +44,6 @@ userSchema.pre('save', async function save(next) {
 	} catch (err) {
 		return next(err);
 	}
-});
-
-userSchema.method('comparePassword', function (password) {
-	if (bcrypt.compareSync(password, this.password)) return true;
-	return false;
 });
 
 const User = model('user', userSchema);

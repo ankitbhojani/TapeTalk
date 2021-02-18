@@ -5,8 +5,9 @@ const express = require('express');
 var app = express();
 var cors = require('cors');
 const config = require('./src/config')
-const auth = require('./src/api/routes/index')
+const auth = require('./src/api/routes/index');
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors())
 app.listen(config.port,() => {
     console.log(`
