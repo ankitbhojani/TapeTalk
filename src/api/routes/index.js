@@ -1,9 +1,10 @@
-const Router = require('express')
-const auth_routes = require('./auth')
+const express = require('express')
+var app = express.Router();
+var wiki = require('./auth');
+// ...
 
-// guaranteed to get dependencies
 module.exports = () => {
-	const app = Router();
-	auth_routes;
+	app.use('/hiii', wiki);
 	return app;
-};
+}
+

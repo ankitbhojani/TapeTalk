@@ -1,18 +1,13 @@
-const Router = require('express');
-const route = Router();
-const app = Router();
-const auth_routes = (app) => {
-    app.use('/auth', route);
-    route.get('/hii', checkApiWorking);
-}
+
+var express = require('express');
+var router = express.Router();
+
+// Home page route.
+router.get('/', checkApiWorking)
 
 function checkApiWorking(req, res) {
 	try {
-        console.log("hiii")
-        return {
-            status:200,
-            message:"Bhaag"
-        }
+        res.json({message:'API is working now',status:200});
 	} catch (error) {
         console.log(error,"errors")
         return {
@@ -22,5 +17,7 @@ function checkApiWorking(req, res) {
 	}
 }
 
-module.exports =  auth_routes(app);
+module.exports = router;
+
+
 
