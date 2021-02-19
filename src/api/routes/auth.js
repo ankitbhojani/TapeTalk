@@ -6,6 +6,7 @@ const bcyrpt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const signUpSchema = require('../validation/signUpSchema');
 const signInSchema = require('../validation/signInSchema');
+const config = require('../../config')
 
 // Authentication Routes
 router.post('/signUp', signUpSchema,signUp)
@@ -18,7 +19,7 @@ async function signUp(req, res) {
             email:req.body.email
         });
         if (user) {
-            return res.json({
+            return res.status(409).json({
                 status:409,
                 message: "User Already Exists",
                 data:null,
@@ -42,7 +43,7 @@ async function signUp(req, res) {
             },
             (err, token) => {
                 if (err) throw err;
-                res.json({
+                res.status(201).json({
                     status : 201,
                     message : "SignUp Successfully",
                     data : {
@@ -59,7 +60,7 @@ async function signUp(req, res) {
         );
     } catch (err) {
         console.log(err,"error");
-        res.json({status:500,message:"Something went wrong"});
+        res.status(500).json({status:500,message:"Something went wrong"});
     }
 }
 
@@ -70,18 +71,17 @@ async function signIn(req, res) {
             email:req.body.email
           });
           if (!user)
-            return res.status(400).json({
-              status:400,
+            return res.status(404).json({
+              status:404,
               message: "User Not Exist",
               data:null
             });
     
           const isMatch = await bcyrpt.compare(req.body.password, user.password);
           if (!isMatch)
-            return res.json({
+            return res.status(422).json({
               message: "Incorrect Password!",
-              status:400,
-              data:null
+              status:422,
             });
     
           const payload = {
@@ -98,8 +98,8 @@ async function signIn(req, res) {
             },
             (err, token) => {
               if (err) throw err;
-              res.json({
-                status : 201,
+              res.status(200).json({
+                status : 200,
                 message : "SignIn Successfully",
                 data : {
                     user : {
@@ -115,10 +115,10 @@ async function signIn(req, res) {
           );
 	} catch (error) {
         console.log(error,"errors")
-        return {
-            status:500,
-            message:"Something went wrong"
-        }
+        res.status(500).json({
+            status : 500,
+            message : "Something went wrong"
+        })
 	}
 }
 

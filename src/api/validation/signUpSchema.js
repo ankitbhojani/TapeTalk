@@ -13,11 +13,13 @@ var signUpSchema = (req, res, next) => {
         }),
         password: Joi.string().min(6).required().messages({
             "any.required" : "Please enter a password",
+            "string.empty" : "Please enter a password",
             "string.min" : "Password must be 6 characters long"
         }),
-        confirmPassword: Joi.string().valid(Joi.ref('password')).required().messages({
+        confirmPassword: Joi.string().required().valid(Joi.ref('password')).messages({
             "any.required" : "Please enter confirm password",
-            "string.ref" : "Password and confirm password should be matched",
+            "string.empty" : "Please enter confirm password",
+            "any.only" : "Password and confirm password should match"
         }),
     });
     validateRequest(req, next, schema);
